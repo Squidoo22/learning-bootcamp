@@ -1,0 +1,19 @@
+{
+  "name": "learning-bootcamp",
+  "version": "1.0.0",
+  "description": "the best application for parking",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lite-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "common-js": "^0.3.8"
+  }
+}
