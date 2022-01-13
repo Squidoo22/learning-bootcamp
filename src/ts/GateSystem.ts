@@ -1,16 +1,23 @@
 import { IGateSystem } from "./interfaces/IGateSystem";
 
 class GateSystem implements IGateSystem {
-  defaultTimeToFinish = 10000;
-  timeToFinishAction = new Date();
-  isGateOpen = false;
-  isGateProcess = false;
-  timeoutId = 0;
+  private defaultTimeToFinish = 10000;
+  private timeToFinishAction = new Date();
+  private isGateOpen = false;
+  private isGateProcess = false;
+  private timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {},
+  this.defaultTimeToFinish);
 
   constructor() {}
 
-  signalProcessing(): void {
-    console.log("signalProcessing");
+  public sendSignalOnGate(): void {
+    console.log("%c Send Signal on Gate ", "background: #222; color: #bada55");
+    this.signalProcessing();
+  }
+
+  private signalProcessing(): void {
+    console.log("%c Signal Proccessing ", "background: #222; color: #bada55");
+
     if (this.isGateProcess) {
       this.restorePreviousStataGate();
 
@@ -18,31 +25,39 @@ class GateSystem implements IGateSystem {
     }
 
     this.isGateProcess = true;
-
     this.timeToFinishAction = new Date();
     this.gateAction();
+
+    const text = this.isGateOpen
+      ? "Gate is start closing"
+      : "Gate is start opening";
+    console.log(`%c ${text} `, "background: #222; color: #bada55");
   }
 
-  gateAction(restore?: boolean): void {
+  private gateAction(restore?: boolean): void {
     this.timeoutId = setTimeout(() => {
-      console.log("gateAction");
       this.isGateProcess = false;
       if (!restore) this.isGateOpen = !this.isGateOpen;
       this.defaultTimeToFinish = 10000;
 
+      const text = this.isGateOpen ? "Gate is Open" : "Gate is close";
+      console.log(`%c ${text} `, "background: #222; color: #bada55");
     }, this.defaultTimeToFinish);
   }
 
-  restorePreviousStataGate(): void {
+  private restorePreviousStataGate(): void {
     clearTimeout(this.timeoutId);
     const ms = new Date().getTime() - this.timeToFinishAction.getTime();
     this.defaultTimeToFinish = ms;
     this.gateAction(true);
+
+    const text = this.isGateOpen
+      ? "Gate was closing, but now is start opening"
+      : "Gate was opening, but now is start closing";
+    console.log(`%c ${text} `, "background: #222; color: #bada55");
   }
 }
 
-const gateSystem = new GateSystem();
-gateSystem.signalProcessing();
+(window as any).GateSystem = GateSystem;
 
-// console.log(gateSystem);
 export default GateSystem;

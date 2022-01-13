@@ -11,9 +11,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^17.0.8",
     "lite-server": "^2.6.1"
   },
   "dependencies": {
-    "common-js": "^0.3.8"
+    "common-js": "^0.3.8",
+    "core-js": "^3.20.2",
+    "regenerator-runtime": "^0.13.9"
   }
 }
