@@ -1,7 +1,7 @@
 export interface IGateSystem {
   isGateOpen: boolean;
   isGateProcess: boolean;
-  defaultTimeToClose: number;
+  defaultTimeToFinish: number;
   timeToFinishAction: Date;
 
   gateAction(restore?: boolean): void;

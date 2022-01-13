@@ -1,8 +1,7 @@
 import { IGateSystem } from "./interfaces/IGateSystem";
-const gateBtnRef = document.getElementById("gateSystem")!;
 
 class GateSystem implements IGateSystem {
-  defaultTimeToClose = 10000;
+  defaultTimeToFinish = 10000;
   timeToFinishAction = new Date();
   isGateOpen = false;
   isGateProcess = false;
@@ -11,6 +10,7 @@ class GateSystem implements IGateSystem {
   constructor() {}
 
   signalProcessing(): void {
+    console.log("signalProcessing");
     if (this.isGateProcess) {
       this.restorePreviousStataGate();
 
@@ -18,7 +18,6 @@ class GateSystem implements IGateSystem {
     }
 
     this.isGateProcess = true;
-    this.renderBtn("In process");
 
     this.timeToFinishAction = new Date();
     this.gateAction();
@@ -26,27 +25,24 @@ class GateSystem implements IGateSystem {
 
   gateAction(restore?: boolean): void {
     this.timeoutId = setTimeout(() => {
+      console.log("gateAction");
       this.isGateProcess = false;
       if (!restore) this.isGateOpen = !this.isGateOpen;
-      this.defaultTimeToClose = 10000;
+      this.defaultTimeToFinish = 10000;
 
-      const textBtn = this.isGateOpen ? "Close" : "Open";
-      this.renderBtn(textBtn);
-    }, this.defaultTimeToClose);
+    }, this.defaultTimeToFinish);
   }
 
   restorePreviousStataGate(): void {
     clearTimeout(this.timeoutId);
     const ms = new Date().getTime() - this.timeToFinishAction.getTime();
-    this.defaultTimeToClose = ms;
+    this.defaultTimeToFinish = ms;
     this.gateAction(true);
-  }
-
-  renderBtn(text: string): void {
-    gateBtnRef.innerHTML = text;
   }
 }
 
 const gateSystem = new GateSystem();
+gateSystem.signalProcessing();
 
-gateBtnRef.addEventListener("click", () => gateSystem.signalProcessing());
+// console.log(gateSystem);
+export default GateSystem;
