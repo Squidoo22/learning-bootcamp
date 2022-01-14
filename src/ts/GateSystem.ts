@@ -1,12 +1,12 @@
 import { IGateSystem } from "./interfaces/IGateSystem";
 
 class GateSystem implements IGateSystem {
-  private defaultTimeToFinish = 10000;
-  private timeToFinishAction = new Date();
+  private timeToFinishAction = 10000;
+  private timeOnClick: Date | undefined;
   private isGateOpen = false;
   private isGateProcess = false;
   private timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {},
-  this.defaultTimeToFinish);
+  this.timeToFinishAction);
 
   constructor() {}
 
@@ -19,13 +19,13 @@ class GateSystem implements IGateSystem {
     console.log("%c Signal Proccessing ", "background: #222; color: #bada55");
 
     if (this.isGateProcess) {
-      this.restorePreviousStataGate();
+      this.restorePreviousStateGate();
 
       return;
     }
 
     this.isGateProcess = true;
-    this.timeToFinishAction = new Date();
+    this.timeOnClick = new Date();
     this.gateAction();
 
     const text = this.isGateOpen
@@ -37,18 +37,25 @@ class GateSystem implements IGateSystem {
   private gateAction(restore?: boolean): void {
     this.timeoutId = setTimeout(() => {
       this.isGateProcess = false;
-      if (!restore) this.isGateOpen = !this.isGateOpen;
-      this.defaultTimeToFinish = 10000;
+      if (restore) {
+        this.setTimeToFinishAction(10000);
+      } else {
+        this.isGateOpen = !this.isGateOpen;
+      }
 
       const text = this.isGateOpen ? "Gate is Open" : "Gate is close";
       console.log(`%c ${text} `, "background: #222; color: #bada55");
-    }, this.defaultTimeToFinish);
+    }, this.timeToFinishAction);
   }
 
-  private restorePreviousStataGate(): void {
+  private setTimeToFinishAction(time: number): void {
+    this.timeToFinishAction = time;
+  }
+
+  private restorePreviousStateGate(): void {
     clearTimeout(this.timeoutId);
-    const ms = new Date().getTime() - this.timeToFinishAction.getTime();
-    this.defaultTimeToFinish = ms;
+    const timeSinceClick = new Date().getTime() - this.timeOnClick!.getTime();
+    this.setTimeToFinishAction(timeSinceClick);
     this.gateAction(true);
 
     const text = this.isGateOpen
