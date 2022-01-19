@@ -1,4 +1,5 @@
 import { IGateSystem } from "./interfaces/IGateSystem";
+import  GateSensor  from "./GateSensor";
 
 class GateSystem implements IGateSystem {
   private timeToFinishAction = 10000;
@@ -7,6 +8,7 @@ class GateSystem implements IGateSystem {
   private isGateProcess = false;
   private timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {},
   this.timeToFinishAction);
+  public sensor: GateSensor = new GateSensor(this);
 
   constructor() {}
 
@@ -62,6 +64,15 @@ class GateSystem implements IGateSystem {
       ? "Gate was closing, but now is start opening"
       : "Gate was opening, but now is start closing";
     console.log(`%c ${text} `, "background: #222; color: #bada55");
+  }
+
+  public onSensorAlarmReceieve(): void {
+    console.log('Alarm!', "background: #222; color: #bada55");
+    if (this.isGateProcess && this.isGateOpen) {
+      this.restorePreviousStateGate();
+
+      return;
+    }
   }
 }
 
