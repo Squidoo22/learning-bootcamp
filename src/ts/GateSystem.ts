@@ -1,5 +1,5 @@
 import { IGateSystem } from "./interfaces/IGateSystem";
-import  GateSensor  from "./GateSensor";
+import GateSensor from "./GateSensor";
 
 class GateSystem implements IGateSystem {
   private timeToFinishAction = 10000;
@@ -67,7 +67,7 @@ class GateSystem implements IGateSystem {
   }
 
   public onSensorAlarmReceieve(): void {
-    console.log('Alarm!', "background: #222; color: #bada55");
+    console.log("Alarm!", "background: #222; color: #bada55");
     if (this.isGateProcess && this.isGateOpen) {
       this.restorePreviousStateGate();
 
