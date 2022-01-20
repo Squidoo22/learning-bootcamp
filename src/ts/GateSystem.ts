@@ -1,5 +1,6 @@
 import { IGateSystem } from "./interfaces/IGateSystem";
 import GateSensor from "./GateSensor";
+import pubSub from "./PubSub";
 
 class GateSystem implements IGateSystem {
   private timeToFinishAction = 10000;
@@ -8,9 +9,11 @@ class GateSystem implements IGateSystem {
   private isGateProcess = false;
   private timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {},
   this.timeToFinishAction);
-  public sensor: GateSensor = new GateSensor(this);
+  public sensor: GateSensor = new GateSensor();
 
-  constructor() {}
+  constructor() {
+    pubSub.subscribe('sensor:movementDetected', this.onSensorAlarmReceieve.bind(this));
+  }
 
   public sendSignalOnGate(): void {
     console.log("%c Send Signal on Gate ", "background: #222; color: #bada55");
@@ -75,7 +78,5 @@ class GateSystem implements IGateSystem {
     }
   }
 }
-
-(window as any).GateSystem = GateSystem;
 
 export default GateSystem;

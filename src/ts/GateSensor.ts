@@ -1,17 +1,10 @@
 import { IGateSensor } from "./interfaces/IGateSensor";
-import GateSystem from "./GateSystem";
+import pubSub from "./PubSub";
 
 class GateSensor implements IGateSensor {
-  public gateSystem: GateSystem;
-
-  constructor(gateSystem: GateSystem) {
-    this.gateSystem = gateSystem;
-  }
-
   public sendAlarm(): void {
-    this.gateSystem.onSensorAlarmReceieve();
+    pubSub.publish('sensor:movementDetected');
   }
 }
 
-(window as any).GateSensor = GateSensor;
 export default GateSensor;
