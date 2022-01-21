@@ -13,7 +13,7 @@ class GateSystem implements IGateSystem {
     this.gate.gateProcessing();
   }
 
-  private setTimeForAutoClosingGate(time: number): void {
+  public setTimeForAutoClosingGate(time: number): void {
     this.gate.TimeForAutoClosing = time;
   }
 }
