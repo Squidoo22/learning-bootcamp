@@ -20,7 +20,10 @@ class GateSystem implements IGateSystem {
   }
 
   public onSensorAlarmReceieve(): void {
-    console.log("Alarm!", "background: #222; color: #bada55");
+    console.log(
+      "%c Alarm, movement detected!",
+      "background: #222; color: #bada55"
+    );
     if (this.gate.isGateProcess && this.gate.isGateOpen) {
       this.gate.restorePreviousStateGate();
 

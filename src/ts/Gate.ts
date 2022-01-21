@@ -58,7 +58,7 @@ class Gate implements IGate {
   private gateAutoClosing() {
     setTimeout(() => {
       console.log(
-        "%c gate is start autoclosing",
+        "%c Gate is start autoclosing",
         "background: #222; color: #bada55"
       );
       this.gateProcessing();
