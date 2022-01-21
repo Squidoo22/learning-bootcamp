@@ -2,6 +2,6 @@ export interface IGate {
   isGateOpen: boolean;
   isGateProcess: boolean;
 
-  signalProcessing(): void;
+  gateProcessing(): void;
   restorePreviousStateGate(): void;
 }

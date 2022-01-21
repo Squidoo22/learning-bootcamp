@@ -1,6 +1,4 @@
 import { IGate } from "./interfaces/IGate";
-import pubSub from "./PubSub";
-
 class Gate implements IGate {
   public isGateOpen = false;
   public isGateProcess = false;
@@ -8,9 +6,9 @@ class Gate implements IGate {
   private timeToFinishAction = 10000;
   private timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {},
   this.timeToFinishAction);
-  private timeForAutoClosing = 10000;
+  public timeForAutoClosing = 10000;
 
-  public signalProcessing(): void {
+  public gateProcessing(): void {
     console.log("%c Signal Proccessing ", "background: #222; color: #bada55");
 
     if (this.isGateProcess) {
@@ -49,12 +47,22 @@ class Gate implements IGate {
       } else {
         this.isGateOpen = !this.isGateOpen;
 
-        if (this.isGateOpen) pubSub.publish("gate:autoClosing");
+        if (this.isGateOpen) this.gateAutoClosing();
       }
 
       const text = this.isGateOpen ? "Gate is Open" : "Gate is close";
       console.log(`%c ${text} `, "background: #222; color: #bada55");
     }, this.timeToFinishAction);
+  }
+
+  private gateAutoClosing() {
+    setTimeout(() => {
+      console.log(
+        "%c gate is start autoclosing",
+        "background: #222; color: #bada55"
+      );
+      this.gateProcessing();
+    }, this.timeForAutoClosing);
   }
 
   private setTimeToFinishAction(time: number): void {

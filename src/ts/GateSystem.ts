@@ -4,7 +4,6 @@ import pubSub from "./PubSub";
 import Gate from "./Gate";
 
 class GateSystem implements IGateSystem {
-  private timeForAutoClosing: 10000;
   public sensor: GateSensor = new GateSensor();
   public gate: Gate = new Gate();
 
@@ -13,16 +12,11 @@ class GateSystem implements IGateSystem {
       "sensor:movementDetected",
       this.onSensorAlarmReceieve.bind(this)
     );
-    pubSub.subscribe("gate:autoClosing", () => {
-      setTimeout(() => {
-        this.gateAutoClosing();
-      }, this.timeForAutoClosing);
-    });
   }
 
   public sendSignalOnGate(): void {
     console.log("%c Send Signal on Gate ", "background: #222; color: #bada55");
-    this.gate.signalProcessing();
+    this.gate.gateProcessing();
   }
 
   public onSensorAlarmReceieve(): void {
@@ -34,9 +28,8 @@ class GateSystem implements IGateSystem {
     }
   }
 
-  private gateAutoClosing() {
-    console.log("autoClosing");
-    this.gate.signalProcessing();
+  private setTimeForAutoClosingGate(time: number): void {
+    this.gate.timeForAutoClosing = time;
   }
 }
 
