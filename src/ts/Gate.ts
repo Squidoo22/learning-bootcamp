@@ -1,4 +1,5 @@
 import { IGate } from "./interfaces/IGate";
+import pubSub from "./PubSub";
 class Gate implements IGate {
   public isGateOpen = false;
   public isGateProcess = false;
@@ -7,6 +8,21 @@ class Gate implements IGate {
   private timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {},
   this.timeToFinishAction);
   public timeForAutoClosing = 10000;
+
+  get TimeForAutoClosing() {
+    return this.timeForAutoClosing;
+  }
+
+  set TimeForAutoClosing(val) {
+    this.timeForAutoClosing = val;
+  }
+
+  constructor() {
+    pubSub.subscribe(
+      "sensor:movementDetected",
+      this.onSensorAlarmReceieve.bind(this)
+    );
+  }
 
   public gateProcessing(): void {
     console.log("%c Signal Proccessing ", "background: #222; color: #bada55");
@@ -53,6 +69,18 @@ class Gate implements IGate {
       const text = this.isGateOpen ? "Gate is Open" : "Gate is close";
       console.log(`%c ${text} `, "background: #222; color: #bada55");
     }, this.timeToFinishAction);
+  }
+
+  public onSensorAlarmReceieve(): void {
+    console.log(
+      "%c Alarm, movement detected!",
+      "background: #222; color: #bada55"
+    );
+    if (this.isGateProcess && this.isGateOpen) {
+      this.restorePreviousStateGate();
+
+      return;
+    }
   }
 
   private gateAutoClosing() {
