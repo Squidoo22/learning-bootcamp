@@ -1,4 +1,4 @@
-export interface IGate {
+export interface IGateController {
   isGateOpen: boolean;
   isGateProcess: boolean;
 

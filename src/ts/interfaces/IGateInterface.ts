@@ -1,6 +1,6 @@
 import GateSensor from "../GateSensor";
 
-export interface IGateSystem {
+export interface IGateInterface {
   sendSignalOnGate(): void;
   sensor: GateSensor;
 }

@@ -1,8 +1,8 @@
-import { IGateSystem } from "./interfaces/IGateSystem";
+import { IGateInterface } from "./interfaces/IGateInterface";
 import GateSensor from "./GateSensor";
-import Gate from "./Gate";
+import Gate from "./GateController";
 
-class GateSystem implements IGateSystem {
+class GateInterface implements IGateInterface {
   public sensor: GateSensor = new GateSensor();
   public gate: Gate = new Gate();
 
@@ -16,6 +16,10 @@ class GateSystem implements IGateSystem {
   public setTimeForAutoClosingGate(time: number): void {
     this.gate.TimeForAutoClosing = time;
   }
+
+  public setTimeForGateAction(time: number): void {
+    this.gate.TimeToFinishAction = time;
+  }
 }
 
-export default GateSystem;
+export default GateInterface;

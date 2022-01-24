@@ -1,13 +1,19 @@
-import { IGate } from "./interfaces/IGate";
+import { IGateController } from "./interfaces/IGateController";
 import pubSub from "./PubSub";
-class Gate implements IGate {
+
+class Gate implements IGateController {
   public isGateOpen = false;
   public isGateProcess = false;
+  private isGateInPending = false;
   private timeOnClick: Date | undefined;
   private timeToFinishAction = 10000;
-  private timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {},
-  this.timeToFinishAction);
   public timeForAutoClosing = 10000;
+  private timeoutActionId: ReturnType<typeof setTimeout> = setTimeout(() => {},
+  this.timeToFinishAction);
+  private timeoutAutoClosingId: ReturnType<typeof setTimeout> = setTimeout(
+    () => {},
+    this.timeForAutoClosing
+  );
 
   get TimeForAutoClosing() {
     return this.timeForAutoClosing;
@@ -15,6 +21,14 @@ class Gate implements IGate {
 
   set TimeForAutoClosing(val) {
     this.timeForAutoClosing = val;
+  }
+
+  get TimeToFinishAction() {
+    return this.timeToFinishAction;
+  }
+
+  set TimeToFinishAction(val) {
+    this.timeToFinishAction = val;
   }
 
   constructor() {
@@ -26,9 +40,28 @@ class Gate implements IGate {
 
   public gateProcessing(): void {
     console.log("%c Signal Proccessing ", "background: #222; color: #bada55");
+    clearTimeout(this.timeoutAutoClosingId);
+
+    if (this.isGateInPending) {
+      console.log(
+        `%c Gate is restore previous state `,
+        "background: #222; color: #bada55"
+      );
+      this.isGateProcess = false;
+      this.isGateInPending = false;
+      this.restorePreviousStateGate();
+
+      return;
+    }
 
     if (this.isGateProcess) {
-      this.restorePreviousStateGate();
+      console.log(
+        `%c Gate is in pending situation`,
+        "background: #222; color: #bada55"
+      );
+      if (this.timeoutActionId) clearTimeout(this.timeoutActionId);
+      this.isGateProcess = false;
+      this.isGateInPending = true;
 
       return;
     }
@@ -44,7 +77,6 @@ class Gate implements IGate {
   }
 
   public restorePreviousStateGate(): void {
-    clearTimeout(this.timeoutId);
     const timeSinceClick = new Date().getTime() - this.timeOnClick!.getTime();
     this.setTimeToFinishAction(timeSinceClick);
     this.gateAction(true);
@@ -56,7 +88,7 @@ class Gate implements IGate {
   }
 
   private gateAction(restore?: boolean): void {
-    this.timeoutId = setTimeout(() => {
+    this.timeoutActionId = setTimeout(() => {
       this.isGateProcess = false;
       if (restore) {
         this.setTimeToFinishAction(10000);
@@ -84,7 +116,7 @@ class Gate implements IGate {
   }
 
   private gateAutoClosing() {
-    setTimeout(() => {
+    this.timeoutAutoClosingId = setTimeout(() => {
       console.log(
         "%c Gate is start autoclosing",
         "background: #222; color: #bada55"
