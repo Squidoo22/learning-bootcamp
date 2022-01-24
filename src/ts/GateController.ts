@@ -1,7 +1,7 @@
 import { IGateController } from "./interfaces/IGateController";
 import pubSub from "./PubSub";
 
-class Gate implements IGateController {
+class GateController implements IGateController {
   public isGateOpen = false;
   public isGateProcess = false;
   private isGateInPending = false;
@@ -130,4 +130,4 @@ class Gate implements IGateController {
   }
 }
 
-export default Gate;
+export default GateController;
