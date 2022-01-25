@@ -1,6 +1,5 @@
-import GateSensor from "../GateSensor";
-
 export interface IGateInterface {
   sendSignalOnGate(): void;
-  sensor: GateSensor;
+  setTimeForAutoClosingGate(time: number): void;
+  setTimeForGateAction(time: number): void
 }

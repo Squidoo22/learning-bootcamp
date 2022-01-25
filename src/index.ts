@@ -1,6 +1,6 @@
 import "./styles/style.scss";
-import GateInterface from "./ts/GateInterface";
+import GateSystem from "./ts/GateSystem";
 
 console.log("hello, world");
 
-(window as any).gateInterface = new GateInterface();
+(window as any).gateSystem = new GateSystem();

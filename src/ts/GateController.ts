@@ -78,7 +78,7 @@ class GateController implements IGateController {
 
   public restorePreviousStateGate(): void {
     const timeSinceClick = new Date().getTime() - this.timeOnClick!.getTime();
-    this.setTimeToFinishAction(timeSinceClick);
+    this.timeToFinishAction = timeSinceClick;
     this.gateAction(true);
 
     const text = this.isGateOpen
@@ -91,7 +91,7 @@ class GateController implements IGateController {
     this.timeoutActionId = setTimeout(() => {
       this.isGateProcess = false;
       if (restore) {
-        this.setTimeToFinishAction(10000);
+        this.timeToFinishAction = 10000;
       } else {
         this.isGateOpen = !this.isGateOpen;
 
@@ -123,10 +123,6 @@ class GateController implements IGateController {
       );
       this.gateProcessing();
     }, this.timeForAutoClosing);
-  }
-
-  private setTimeToFinishAction(time: number): void {
-    this.timeToFinishAction = time;
   }
 }
 
