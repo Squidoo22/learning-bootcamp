@@ -1,5 +1,6 @@
 import GateController from "./GateController";
 import { IGateInterface } from "./interfaces/IGateInterface";
+import messagesController from "./MessagesController";
 
 class GateInterface implements IGateInterface {
   private gateController: GateController;
@@ -9,7 +10,7 @@ class GateInterface implements IGateInterface {
   }
 
   public sendSignalOnGate(): void {
-    console.log("%c Send Signal on Gate ", "background: #222; color: #bada55");
+    messagesController.showNotification('Send Signal on Gate');
     this.gateController.gateProcessing();
   }
 

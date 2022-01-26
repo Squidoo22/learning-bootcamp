@@ -1,5 +1,6 @@
 import { IGateController } from "./interfaces/IGateController";
 import pubSub from "./PubSub";
+import messagesController from "./MessagesController";
 
 class GateController implements IGateController {
   public isGateOpen = false;
@@ -39,14 +40,11 @@ class GateController implements IGateController {
   }
 
   public gateProcessing(): void {
-    console.log("%c Signal Proccessing ", "background: #222; color: #bada55");
+    messagesController.showNotification('Signal Proccessing');
     clearTimeout(this.timeoutAutoClosingId);
 
     if (this.isGateInPending) {
-      console.log(
-        `%c Gate is restore previous state `,
-        "background: #222; color: #bada55"
-      );
+      messagesController.showNotification('Gate is restore previous state');
       this.isGateProcess = false;
       this.isGateInPending = false;
       this.restorePreviousStateGate();
@@ -55,10 +53,7 @@ class GateController implements IGateController {
     }
 
     if (this.isGateProcess) {
-      console.log(
-        `%c Gate is in pending situation`,
-        "background: #222; color: #bada55"
-      );
+      messagesController.showNotification('Gate is in pending situation');
       if (this.timeoutActionId) clearTimeout(this.timeoutActionId);
       this.isGateProcess = false;
       this.isGateInPending = true;
@@ -73,7 +68,7 @@ class GateController implements IGateController {
     const text = this.isGateOpen
       ? "Gate is start closing"
       : "Gate is start opening";
-    console.log(`%c ${text} `, "background: #222; color: #bada55");
+    messagesController.showNotification(text);
   }
 
   public restorePreviousStateGate(): void {
@@ -84,7 +79,7 @@ class GateController implements IGateController {
     const text = this.isGateOpen
       ? "Gate was closing, but now is start opening"
       : "Gate was opening, but now is start closing";
-    console.log(`%c ${text} `, "background: #222; color: #bada55");
+    messagesController.showNotification(text);
   }
 
   private gateAction(restore?: boolean): void {
@@ -99,15 +94,12 @@ class GateController implements IGateController {
       }
 
       const text = this.isGateOpen ? "Gate is Open" : "Gate is close";
-      console.log(`%c ${text} `, "background: #222; color: #bada55");
+      messagesController.showNotification(text);
     }, this.timeToFinishAction);
   }
 
   public onSensorAlarmReceieve(): void {
-    console.log(
-      "%c Alarm, movement detected!",
-      "background: #222; color: #bada55"
-    );
+    messagesController.showNotification('Alarm, movement detected!');
     if (this.isGateProcess && this.isGateOpen) {
       this.restorePreviousStateGate();
 
@@ -117,10 +109,7 @@ class GateController implements IGateController {
 
   private gateAutoClosing() {
     this.timeoutAutoClosingId = setTimeout(() => {
-      console.log(
-        "%c Gate is start autoclosing",
-        "background: #222; color: #bada55"
-      );
+      messagesController.showNotification('Gate is start autoclosing');
       this.gateProcessing();
     }, this.timeForAutoClosing);
   }
