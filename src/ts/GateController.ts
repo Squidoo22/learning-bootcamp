@@ -1,6 +1,6 @@
-import { IGateController } from "./interfaces/IGateController";
-import pubSub from "./PubSub";
-import messagesController from "./MessagesController";
+import { IGateController } from './interfaces/IGateController';
+import pubSub from './PubSub';
+import messagesController from './MessagesController';
 
 class GateController implements IGateController {
   public isGateOpen = false;
@@ -9,8 +9,10 @@ class GateController implements IGateController {
   private timeOnClick: Date | undefined;
   private timeToFinishAction = 10000;
   public timeForAutoClosing = 10000;
-  private timeoutActionId: ReturnType<typeof setTimeout> = setTimeout(() => {},
-  this.timeToFinishAction);
+  private toogleGateStateTimeoutId: ReturnType<typeof setTimeout> = setTimeout(
+    () => {},
+    this.timeToFinishAction
+  );
   private timeoutAutoClosingId: ReturnType<typeof setTimeout> = setTimeout(
     () => {},
     this.timeForAutoClosing
@@ -34,7 +36,7 @@ class GateController implements IGateController {
 
   constructor() {
     pubSub.subscribe(
-      "sensor:movementDetected",
+      'sensor:movementDetected',
       this.onSensorAlarmReceieve.bind(this)
     );
   }
@@ -47,14 +49,15 @@ class GateController implements IGateController {
       messagesController.showNotification('Gate is restore previous state');
       this.isGateProcess = false;
       this.isGateInPending = false;
-      this.restorePreviousStateGate();
+      this.restoreGatePreviousState();
 
       return;
     }
 
     if (this.isGateProcess) {
       messagesController.showNotification('Gate is in pending situation');
-      if (this.timeoutActionId) clearTimeout(this.timeoutActionId);
+      if (this.toogleGateStateTimeoutId)
+        clearTimeout(this.toogleGateStateTimeoutId);
       this.isGateProcess = false;
       this.isGateInPending = true;
 
@@ -63,27 +66,27 @@ class GateController implements IGateController {
 
     this.isGateProcess = true;
     this.timeOnClick = new Date();
-    this.gateAction();
+    this.toogleGateState();
 
     const text = this.isGateOpen
-      ? "Gate is start closing"
-      : "Gate is start opening";
+      ? 'Gate is start closing'
+      : 'Gate is start opening';
     messagesController.showNotification(text);
   }
 
-  public restorePreviousStateGate(): void {
+  public restoreGatePreviousState(): void {
     const timeSinceClick = new Date().getTime() - this.timeOnClick!.getTime();
     this.timeToFinishAction = timeSinceClick;
-    this.gateAction(true);
+    this.toogleGateState(true);
 
     const text = this.isGateOpen
-      ? "Gate was closing, but now is start opening"
-      : "Gate was opening, but now is start closing";
+      ? 'Gate was closing, but now is start opening'
+      : 'Gate was opening, but now is start closing';
     messagesController.showNotification(text);
   }
 
-  private gateAction(restore?: boolean): void {
-    this.timeoutActionId = setTimeout(() => {
+  private toogleGateState(restore?: boolean): void {
+    this.toogleGateStateTimeoutId = setTimeout(() => {
       this.isGateProcess = false;
       if (restore) {
         this.timeToFinishAction = 10000;
@@ -93,7 +96,7 @@ class GateController implements IGateController {
         if (this.isGateOpen) this.gateAutoClosing();
       }
 
-      const text = this.isGateOpen ? "Gate is Open" : "Gate is close";
+      const text = this.isGateOpen ? 'Gate is Open' : 'Gate is close';
       messagesController.showNotification(text);
     }, this.timeToFinishAction);
   }
@@ -101,7 +104,7 @@ class GateController implements IGateController {
   public onSensorAlarmReceieve(): void {
     messagesController.showNotification('Alarm, movement detected!');
     if (this.isGateProcess && this.isGateOpen) {
-      this.restorePreviousStateGate();
+      this.restoreGatePreviousState();
 
       return;
     }

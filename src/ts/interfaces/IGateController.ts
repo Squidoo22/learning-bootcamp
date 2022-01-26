@@ -3,5 +3,5 @@ export interface IGateController {
   isGateProcess: boolean;
 
   gateProcessing(): void;
-  restorePreviousStateGate(): void;
+  restoreGatePreviousState(): void;
 }
