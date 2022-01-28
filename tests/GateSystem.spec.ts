@@ -8,7 +8,7 @@ jest.mock('../src/ts/GateController');
 jest.mock('../src/ts/GateInterface');
 
 describe('GateSystem', () => {
-  let gateSystem: Object;
+  let gateSystem = new GateSystem();
 
   beforeEach(() => {
     const controller = new GateController();
