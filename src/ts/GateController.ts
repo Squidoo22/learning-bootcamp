@@ -3,12 +3,12 @@ import pubSub from './PubSub';
 import messagesController from './MessagesController';
 
 class GateController implements IGateController {
-  public isGateOpen = false;
-  public isGateProcess = false;
+  private isGateOpen = false;
+  private isGateProcess = false;
   private isGateInPending = false;
   private timeOnClick: Date | undefined;
   private timeToFinishAction = 10000;
-  public timeForAutoClosing = 10000;
+  private timeForAutoClosing = 10000;
   private toogleGateStateTimeoutId: ReturnType<typeof setTimeout> = setTimeout(
     () => {},
     this.timeToFinishAction
@@ -74,7 +74,7 @@ class GateController implements IGateController {
     messagesController.showNotification(text);
   }
 
-  public restoreGatePreviousState(): void {
+  private restoreGatePreviousState(): void {
     const timeSinceClick = new Date().getTime() - this.timeOnClick!.getTime();
     this.timeToFinishAction = timeSinceClick;
     this.toogleGateState(true);
