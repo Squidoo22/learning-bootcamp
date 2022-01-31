@@ -12,12 +12,6 @@ describe('GateSystem', () => {
 
   beforeEach(() => {
     const controller = new GateController();
-
-    gateSystem = {
-      sensor: new GateSensor(),
-      controller: controller,
-      interface: new GateInterface(controller),
-    };
   });
 
   it('Property sensor exists', () => {

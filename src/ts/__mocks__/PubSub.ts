@@ -1,16 +1,15 @@
-import pubSub from '../PubSub';
-
+const pubSub: any = {};
 let handler: Function;
 
 function subscribe(eventName: string, subHandler: Function) {
   handler = subHandler;
 }
 
-function callHandler() {
+function publish() {
   handler();
 }
 
 pubSub.subscribe = subscribe;
-pubSub.callHandler = callHandler;
+pubSub.publish = publish;
 
 export default pubSub;
