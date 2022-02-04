@@ -1,6 +1,6 @@
-import GateController from "./GateController";
-import { IGateInterface } from "./interfaces/IGateInterface";
-import messagesController from "./MessagesController";
+import GateController from './GateController';
+import { IGateInterface } from './interfaces/IGateInterface';
+import messagesController from './MessagesController';
 
 class GateInterface implements IGateInterface {
   private gateController: GateController;
