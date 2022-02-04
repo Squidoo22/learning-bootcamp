@@ -1,11 +1,12 @@
 import GateController from '../src/ts/GateController';
 import GateInterface from '../src/ts/GateInterface';
-import messagesController from '../src/ts/MessagesController';
+import MessagesController from '../src/ts/MessagesController';
 
 jest.mock('../src/ts/GateController');
 jest.mock('../src/ts/MessagesController');
 
 describe('GateInterface', () => {
+  const messagesController = MessagesController.getInstance();
   let gateInterface: GateInterface;
   let gateController: GateController;
 
@@ -13,11 +14,6 @@ describe('GateInterface', () => {
     gateController = new GateController();
     gateInterface = new GateInterface(gateController);
   });
-
-  // it('GateController is exist in class properties', () => {
-  //   expect(gateInterface).toHaveProperty('gateController');
-  //   expect(gateInterface).toBeInstanceOf(GateInterface);
-  // });
 
   it('GateController  timeForAutoClosing changed', () => {
     const time = 5000;

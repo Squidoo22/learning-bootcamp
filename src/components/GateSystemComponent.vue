@@ -3,11 +3,12 @@
   <gate-remote-controller-component />
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue';
 import GateRemoteControllerComponent from './widgets/GateRemoteControllerComponent.vue';
 
 export default defineComponent({
   components: { GateRemoteControllerComponent },
+  setup() {},
 });
 </script>

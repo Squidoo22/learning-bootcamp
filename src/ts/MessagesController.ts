@@ -1,5 +1,7 @@
 class MessagesController {
-  private notifications: Array<string> = [];
+  private static instance: MessagesController;
+  public notifications: Array<string> = [];
+  public gateStatusInfo: string = 'Gate is close';
 
   constructor() {}
 
@@ -8,13 +10,20 @@ class MessagesController {
     this.notifications.push(
       `${new Date().toJSON().slice(0, 19).split('T').join(' ')} ${text}`
     );
+    this.gateStatusInfo = text;
   }
 
   public showNotificationsHistory(): void {
     this.notifications.forEach((string: string) => console.log(string));
   }
+
+  public static getInstance(): MessagesController {
+    if (!MessagesController.instance) {
+      MessagesController.instance = new MessagesController();
+    }
+
+    return MessagesController.instance;
+  }
 }
 
-const messagesController = new MessagesController();
-
-export default messagesController;
+export default MessagesController;

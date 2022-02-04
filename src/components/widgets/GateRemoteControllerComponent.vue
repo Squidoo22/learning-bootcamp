@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <button @click="onRemoteControllerClick">
-      <span></span>
+  <div class="gate-remote-controller">
+    <button class="gate-remote-btn" @click="onRemoteControllerClick">
+      <span>{{ getBtnTxt() }}</span>
     </button>
   </div>
 </template>
@@ -10,12 +10,13 @@
 import { defineComponent } from 'vue';
 import GateInterface from '../../ts/GateInterface';
 import GateController from '../../ts/GateController';
-import messagesController from '../../ts/MessagesController';
+import MessagesController from '../../ts/MessagesController';
 
 export default defineComponent({
   data() {
     return {
       gateController: new GateController(),
+      messagesController: MessagesController.getInstance(),
     };
   },
   created() {
@@ -24,8 +25,20 @@ export default defineComponent({
   methods: {
     onRemoteControllerClick(): void {
       this.gateInterface.sendSignalOnGate();
-      console.log(messagesController);
+    },
+    getBtnTxt() {
+      const text = this.messagesController.gateStatusInfo;
+
+      return text;
     },
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.gate-remote-controller {
+  .gate-remote-btn {
+    background-color: red;
+  }
+}
+</style>

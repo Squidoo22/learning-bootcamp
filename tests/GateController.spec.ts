@@ -1,12 +1,13 @@
 import GateController from '../src/ts/GateController';
 import pubSub from '../src/ts/PubSub';
-import messagesController from '../src/ts/MessagesController';
+import MessagesController from '../src/ts/MessagesController';
 
 jest.mock('../src/ts/PubSub');
 jest.mock('../src/ts/MessagesController');
 
 describe('GateController', () => {
   let gateController: GateController;
+  const messagesController = MessagesController.getInstance();
 
   beforeEach(() => {
     jest.spyOn(pubSub, 'subscribe');

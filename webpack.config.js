@@ -31,6 +31,10 @@ module.exports = (env) => {
     module: {
       rules: [
         {
+          test: /\.scss$/,
+          use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+        },
+        {
           test: /\.vue$/,
           use: 'vue-loader',
         },

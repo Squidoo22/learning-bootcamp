@@ -1,8 +1,9 @@
 import GateController from './GateController';
 import { IGateInterface } from './interfaces/IGateInterface';
-import messagesController from './MessagesController';
+import MessagesController from './MessagesController';
 
 class GateInterface implements IGateInterface {
+  private messagesController = MessagesController.getInstance();
   private gateController: GateController;
 
   constructor(controller: GateController) {
@@ -10,7 +11,7 @@ class GateInterface implements IGateInterface {
   }
 
   public sendSignalOnGate(): void {
-    messagesController.showNotification('Send Signal on Gate');
+    this.messagesController.showNotification('Send Signal on Gate');
     this.gateController.gateProcessing();
   }
 
