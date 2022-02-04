@@ -14,10 +14,10 @@ describe('GateInterface', () => {
     gateInterface = new GateInterface(gateController);
   });
 
-  it('GateController is exist in class properties', () => {
-    expect(gateInterface).toHaveProperty('gateController');
-    expect(gateInterface).toBeInstanceOf(GateInterface);
-  });
+  // it('GateController is exist in class properties', () => {
+  //   expect(gateInterface).toHaveProperty('gateController');
+  //   expect(gateInterface).toBeInstanceOf(GateInterface);
+  // });
 
   it('GateController  timeForAutoClosing changed', () => {
     const time = 5000;
