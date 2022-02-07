@@ -1,18 +1,20 @@
 <template>
   <div>
     <h1 class="gate-system-title">Gate System</h1>
-    <gate-remote-controller-component @stateChanged="onGateChangeState" />
+    <gate-remote-controller @stateChanged="onGateChangeState" />
+    <iphone />
     <gate-schema :gateOpenedState="isGateOpenedOrInClosingProcess" />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-import GateRemoteControllerComponent from './widgets/GateRemoteControllerComponent.vue';
+import GateRemoteController from './widgets/GateRemoteController.vue';
+import Iphone from './widgets/Iphone.vue';
 import GateSchema from './widgets/GateSchema.vue';
 
 export default defineComponent({
-  components: { GateRemoteControllerComponent, GateSchema },
+  components: { GateRemoteController, Iphone, GateSchema },
   data() {
     return {
       isGateOpenedOrInClosingProcess: false,

@@ -14,6 +14,7 @@ import MessagesController from '../../ts/MessagesController';
 import pubSub from '../../ts/PubSub';
 
 export default defineComponent({
+  name: 'gate-remote-controller',
   data() {
     return {
       gateController: new GateController(),
@@ -22,7 +23,9 @@ export default defineComponent({
   },
   created() {
     this.gateInterface = new GateInterface(this.gateController);
-    pubSub.subscribe('gateController:stateChanged', (state: boolean) => {this.$emit('stateChanged', state)});
+    pubSub.subscribe('gateController:stateChanged', (state: boolean) => {
+      this.$emit('stateChanged', state);
+    });
   },
   methods: {
     onRemoteControllerClick(): void {

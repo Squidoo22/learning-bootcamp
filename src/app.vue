@@ -1,14 +1,14 @@
 <template>
-  <gate-system-component />
+  <gate-system />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import GateSystemComponent from './components/GateSystemComponent.vue';
+import GateSystem from './components/GateSystem.vue';
 
 export default defineComponent({
   components: {
-    GateSystemComponent,
+    GateSystem,
   },
 });
 </script>
