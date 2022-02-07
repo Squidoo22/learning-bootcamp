@@ -11,6 +11,7 @@ import { defineComponent } from 'vue';
 import GateInterface from '../../ts/GateInterface';
 import GateController from '../../ts/GateController';
 import MessagesController from '../../ts/MessagesController';
+import pubSub from '../../ts/PubSub';
 
 export default defineComponent({
   data() {
@@ -21,6 +22,7 @@ export default defineComponent({
   },
   created() {
     this.gateInterface = new GateInterface(this.gateController);
+    pubSub.subscribe('gateController:stateChanged', (state: boolean) => {this.$emit('stateChanged', state)});
   },
   methods: {
     onRemoteControllerClick(): void {
