@@ -35,6 +35,10 @@ class GateController implements IGateController {
     this.timeToFinishAction = val;
   }
 
+  get isGateOpenOrInProcessOfClosing() {
+    return this.isGateOpen;
+  }
+
   constructor() {
     pubSub.subscribe(
       'sensor:movementDetected',
@@ -97,6 +101,8 @@ class GateController implements IGateController {
         this.isGateOpen = !this.isGateOpen;
 
         if (this.isGateOpen) this.gateAutoClosing();
+
+        pubSub.publish('gateController:stateChanged', this.isGateOpen);
       }
 
       const text = this.isGateOpen ? 'Gate is Open' : 'Gate is close';
