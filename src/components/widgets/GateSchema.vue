@@ -5,20 +5,21 @@
       class="inner-area"
       @dragover="onDragOver"
       @drop="onDrop"
-    ></div>
+    ><span>Inner Area</span></div>
     <div
       id="gateArea"
       class="gate-area"
       :class="{ opened: gateOpenedState }"
       @dragover="onDragOver"
       @drop="onDrop"
-    ></div>
+    ><span>Gate Area</span></div>
     <div
       id="outterArea"
       class="outter-area"
       @dragover="onDragOver"
       @drop="onDrop"
     >
+      <span>Outter Area</span>
       <div
         id="automobile"
         class="automobile-draggable"
@@ -55,7 +56,7 @@ export default defineComponent({
     },
 
     onDragOver(event: any) {
-      if (this.carLocation === event.currentTarget.id || this.gateOpenedState) {
+      if (this.carLocation === event.currentTarget.id || this.gateOpenedState || this.carLocation === 'gateArea') {
         event.preventDefault();
       }
     },
@@ -85,8 +86,8 @@ export default defineComponent({
   .inner-area,
   .outter-area,
   .gate-area {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     padding: 20px;
   }
 
@@ -106,7 +107,7 @@ export default defineComponent({
   .automobile-draggable {
     background-color: lightslategrey;
     width: 60px;
-    height: 60px;
+    height: 55px;
     border: 4px solid black;
 
     &.dragging {

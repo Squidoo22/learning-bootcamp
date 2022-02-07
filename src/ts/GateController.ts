@@ -105,7 +105,7 @@ class GateController implements IGateController {
         pubSub.publish('gateController:stateChanged', this.isGateOpen);
       }
 
-      const text = this.isGateOpen ? 'Gate is Open' : 'Gate is close';
+      const text = this.isGateOpen ? 'Gate is Open' : 'Gate is closed';
       this.messagesController.showNotification(text);
     }, this.timeToFinishAction);
   }
