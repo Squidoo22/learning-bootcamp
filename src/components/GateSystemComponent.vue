@@ -1,5 +1,5 @@
 <template>
-  GateSystem
+  <h1 class="gate-system-title">Gate System</h1>
   <gate-remote-controller-component />
 </template>
 
@@ -9,6 +9,12 @@ import GateRemoteControllerComponent from './widgets/GateRemoteControllerCompone
 
 export default defineComponent({
   components: { GateRemoteControllerComponent },
-  setup() {},
 });
 </script>
+
+<style lang="scss" scoped>
+.gate-system-title {
+  text-align: center;
+  color: #2ee59d;
+}
+</style>

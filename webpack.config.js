@@ -54,7 +54,7 @@ module.exports = (env) => {
           ],
         },
         {
-          test: /\.less$/,
+          test: /\.css$/i,
           use: ['style-loader', 'css-loader', 'less-loader'],
         },
       ],
