@@ -7,6 +7,8 @@ jest.mock('../src/ts/MessagesController');
 
 describe('GateController', () => {
   let gateController: GateController;
+  const mockGetInstance = jest.fn().mockReturnValue(new MessagesController());
+  MessagesController.getInstance = mockGetInstance;
   const messagesController = MessagesController.getInstance();
 
   beforeEach(() => {

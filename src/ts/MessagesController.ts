@@ -2,6 +2,7 @@ class MessagesController {
   private static instance: MessagesController;
   public notifications: Array<string> = [];
   public gateStatusInfo: string = 'Gate is closed';
+  static MessagesController: MessagesController;
 
   constructor() {}
 

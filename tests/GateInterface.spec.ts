@@ -6,6 +6,8 @@ jest.mock('../src/ts/GateController');
 jest.mock('../src/ts/MessagesController');
 
 describe('GateInterface', () => {
+  const mockGetInstance = jest.fn().mockReturnValue(new MessagesController());
+  MessagesController.getInstance = mockGetInstance;
   const messagesController = MessagesController.getInstance();
   let gateInterface: GateInterface;
   let gateController: GateController;
